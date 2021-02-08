@@ -12,20 +12,15 @@ import com.example.fitnessapp.databinding.FragmentSetupBinding
 class SetupFragment : Fragment(R.layout.fragment_setup) {
     private lateinit var binding: FragmentSetupBinding
 
+    // For testing, will remove soon
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentSetupBinding.inflate(inflater)
 
         // Allows Data Binding to Observe LiveData with the lifecycle of this Fragment
         binding.lifecycleOwner = this
-        return binding.root
-    }
-
-    // For testing, will remove soon
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
         binding.tvContinue.setOnClickListener {
             findNavController().navigate(R.id.action_setupFragment_to_runFragment)
         }
+        return binding.root
     }
 }

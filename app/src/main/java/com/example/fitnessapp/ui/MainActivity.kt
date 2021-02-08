@@ -16,10 +16,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
         // TODO replace with cleaner code in future
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+//        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         binding.apply {
             lifecycleOwner = this@MainActivity
             setSupportActionBar(toolbar)
