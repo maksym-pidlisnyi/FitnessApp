@@ -1,13 +1,16 @@
 package com.example.fitnessapp.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.fitnessapp.R
 import com.example.fitnessapp.databinding.ActivityMainBinding
+import com.example.fitnessapp.util.Constants.Companion.ACTION_SHOW_TRACKING_FRAGMENT
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -21,6 +24,8 @@ class MainActivity : AppCompatActivity() {
 //        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        navigateToTrackingFragmentIfNeeded(intent)  // possible bug(maybe put in the end)
 
         binding.apply {
             lifecycleOwner = this@MainActivity
@@ -37,5 +42,15 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        navigateToTrackingFragmentIfNeeded(intent)
+    }
+
+    private fun navigateToTrackingFragmentIfNeeded(intent: Intent?) {
+        if (intent?.action == ACTION_SHOW_TRACKING_FRAGMENT)
+            binding.navHostFragment.findNavController().navigate(R.id.action_global_trackingFragment)
     }
 }
