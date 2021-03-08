@@ -27,7 +27,6 @@ class TrackingUtility {
                     Manifest.permission.ACCESS_BACKGROUND_LOCATION
                 )
             }
-        }
 
         /**
          * Takes an amount of milliseconds and converts it to a formatted string, optionally
@@ -52,4 +51,5 @@ class TrackingUtility {
                     "${if (seconds < 10) "0" else ""}$seconds:" +
                     "${if (milliseconds < 10) "0" else ""}$milliseconds"
         }
+    }
 }
