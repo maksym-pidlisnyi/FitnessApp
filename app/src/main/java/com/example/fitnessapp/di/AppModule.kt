@@ -15,25 +15,12 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Singleton
 
 @Module
 @InstallIn(ApplicationComponent::class)
 object AppModule {
-
-    @Singleton
-    @Provides
-    fun provideAppDb(app: Application): RunningDatabase {
-        return Room.databaseBuilder(app, RunningDatabase::class.java, DATABASE_NAME)
-            .fallbackToDestructiveMigration()
-            .build()
-    }
-
-    @Singleton
-    @Provides
-    fun provideRunDao(db: RunningDatabase): RunDao {
-        return db.getRunDao()
-    }
 
     @Singleton
     @Provides
@@ -55,5 +42,19 @@ object AppModule {
     fun provideFirstTimeToggle(sharedPreferences: SharedPreferences) = sharedPreferences.getBoolean(
         KEY_FIRST_TIME_TOGGLE, true
     )
+
+    @Singleton
+    @Provides
+    fun provideAppDb(app: Application): RunningDatabase {
+        return Room.databaseBuilder(app, RunningDatabase::class.java, DATABASE_NAME)
+            .fallbackToDestructiveMigration()
+            .build()
+    }
+
+    @Singleton
+    @Provides
+    fun provideRunDao(db: RunningDatabase): RunDao {
+        return db.getRunDao()
+    }
 
 }
