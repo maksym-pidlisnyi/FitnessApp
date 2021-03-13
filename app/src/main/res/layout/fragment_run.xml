@@ -6,6 +6,10 @@
         <variable
             name="viewModel"
             type="com.example.fitnessapp.viewmodels.MainViewModel" />
+
+        <variable
+            name="adapter"
+            type="com.example.fitnessapp.adapters.RunAdapter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -40,7 +44,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spFilter" />
+        app:layout_constraintTop_toBottomOf="@+id/spFilter"
+        app:setAdapter="@{adapter}" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"

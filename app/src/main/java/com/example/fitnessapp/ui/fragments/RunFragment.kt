@@ -6,10 +6,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fitnessapp.R
+import com.example.fitnessapp.adapters.RunAdapter
 import com.example.fitnessapp.databinding.FragmentRunBinding
 import com.example.fitnessapp.util.Constants
 import com.example.fitnessapp.util.TrackingUtility
@@ -21,10 +25,11 @@ import pub.devrel.easypermissions.EasyPermissions
 @AndroidEntryPoint
 class RunFragment : Fragment(R.layout.fragment_run), EasyPermissions.PermissionCallbacks{
 
-    private val viewModel: MainViewModel by viewModels()
+    private val viewModel: MainViewModel by viewModels()  // TODO recheck
 
     private lateinit var binding: FragmentRunBinding
 
+    // TODO check onCreateView -- onViewCreated
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentRunBinding.inflate(inflater)
 
@@ -35,6 +40,17 @@ class RunFragment : Fragment(R.layout.fragment_run), EasyPermissions.PermissionC
         binding.fab.setOnClickListener {
             findNavController().navigate(R.id.action_runFragment_to_trackingFragment)
         }
+
+        val runAdapter = RunAdapter()
+
+        binding.adapter = runAdapter
+        binding.rvRuns.layoutManager = LinearLayoutManager(requireContext())
+
+
+        viewModel.runsSortedByDate.observe(viewLifecycleOwner, Observer {
+            runAdapter.submitList(it)
+        })
+
         return binding.root
     }
 
