@@ -53,8 +53,6 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
     // For testing, will remove soon
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentTrackingBinding.inflate(inflater)
-
-        // Allows Data Binding to Observe LiveData with the lifecycle of this Fragment
         binding.lifecycleOwner = this
         setHasOptionsMenu(true)
 

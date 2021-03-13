@@ -32,9 +32,13 @@ class SetupFragment : Fragment(R.layout.fragment_setup) {
     // For testing, will remove soon
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentSetupBinding.inflate(inflater)
-
-        // Allows Data Binding to Observe LiveData with the lifecycle of this Fragment
         binding.lifecycleOwner = this
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         if (!isFirstAppOpen) {
             val navOptions = NavOptions.Builder()
@@ -55,8 +59,6 @@ class SetupFragment : Fragment(R.layout.fragment_setup) {
                 Snackbar.make(requireView(),
                     "Please enter all the fields", Snackbar.LENGTH_SHORT).show()
         }
-        return binding.root
-
     }
 
     /**
