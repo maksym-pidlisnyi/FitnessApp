@@ -12,6 +12,7 @@ import com.example.fitnessapp.R
 import com.example.fitnessapp.databinding.FragmentTrackingBinding
 import com.example.fitnessapp.db.Run
 import com.example.fitnessapp.services.TrackingService
+import com.example.fitnessapp.ui.CancelTrackingDialog
 import com.example.fitnessapp.util.Constants.Companion.ACTION_PAUSE_SERVICE
 import com.example.fitnessapp.util.Constants.Companion.ACTION_START_OR_RESUME_SERVICE
 import com.example.fitnessapp.util.Constants.Companion.ACTION_STOP_SERVICE
@@ -25,13 +26,14 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.PolylineOptions
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 import kotlin.math.round
+
+const val CANCEL_TRACKING_DIALOG_TAG = "CancelDialog"
 
 @AndroidEntryPoint
 class TrackingFragment : Fragment(R.layout.fragment_tracking) {
@@ -61,6 +63,16 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        if (savedInstanceState != null) {
+            val cancelTrackingDialog = parentFragmentManager.findFragmentByTag(
+                CANCEL_TRACKING_DIALOG_TAG
+            ) as CancelTrackingDialog?
+            cancelTrackingDialog?.setAgreeListener {
+                stopRun()
+            }
+        }
+
         binding.mapView.onCreate(savedInstanceState)
         binding.btnToggleRun.setOnClickListener {
             toggleRun()
@@ -122,7 +134,7 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
 
     private fun updateTracking(isTracking: Boolean) {
         this.isTracking = isTracking
-        if (!isTracking) {
+        if (!isTracking && curTimeInMillis > 0L) {
             binding.btnToggleRun.text = "Start"
             binding.btnFinishRun.visibility = View.VISIBLE
         } else if (isTracking) {
@@ -157,9 +169,11 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
         })
 
         TrackingService.timeRunInMillis.observe(viewLifecycleOwner, Observer {
-            curTimeInMillis = it
-            val formattedTime = TrackingUtility.getFormattedStopWatchTime(curTimeInMillis, true)
-            binding.tvTimer.text = formattedTime
+            if (isTracking) {
+                curTimeInMillis = it
+                val formattedTime = TrackingUtility.getFormattedStopWatchTime(curTimeInMillis, true)
+                binding.tvTimer.text = formattedTime
+            }
         })
     }
 
@@ -212,7 +226,7 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
      * Finishes the tracking.
      */
     private fun stopRun() {
-        Timber.d("STOPPING RUN")
+        binding.tvTimer.text = "00:00:00:00"
         sendCommandToService(ACTION_STOP_SERVICE)
         findNavController().navigate(R.id.action_trackingFragment_to_runFragment)
     }
@@ -245,18 +259,11 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
      * Shows a dialog to cancel the current run.
      */
     private fun showCancelTrackingDialog() {
-        val dialog = MaterialAlertDialogBuilder(requireContext(), R.style.AlertDialogTheme)
-                .setTitle("Cancel the Run?")
-                .setMessage("Are you sure to cancel the current run and delete all it data?")
-                .setIcon(R.drawable.ic_delete)
-                .setPositiveButton("Yes") { _, _ ->
-                    stopRun()
-                }
-                .setNegativeButton("No") { dialogInterface, _ ->
-                    dialogInterface.cancel()
-                }
-                .create()
-        dialog.show()
+        CancelTrackingDialog().apply {
+            setAgreeListener {
+                stopRun()
+            }
+        }.show(parentFragmentManager, CANCEL_TRACKING_DIALOG_TAG)
     }
 
     /**
