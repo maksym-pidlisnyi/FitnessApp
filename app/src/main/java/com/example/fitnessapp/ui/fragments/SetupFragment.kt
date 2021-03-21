@@ -10,10 +10,12 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.example.fitnessapp.R
+import com.example.fitnessapp.databinding.FragmentSettingsBinding
 import com.example.fitnessapp.databinding.FragmentSetupBinding
 import com.example.fitnessapp.util.Constants.Companion.KEY_FIRST_TIME_TOGGLE
 import com.example.fitnessapp.util.Constants.Companion.KEY_NAME
 import com.example.fitnessapp.util.Constants.Companion.KEY_WEIGHT
+import com.example.fitnessapp.util.FragmentBinding
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -27,11 +29,12 @@ class SetupFragment : Fragment(R.layout.fragment_setup) {
     @set:Inject
     var isFirstAppOpen = true
 
-    private lateinit var binding: FragmentSetupBinding
+//    private lateinit var binding: FragmentSetupBinding
+    private val binding by FragmentBinding<FragmentSetupBinding>(R.layout.fragment_setup)
 
     // For testing, will remove soon
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragmentSetupBinding.inflate(inflater)
+//        binding = FragmentSetupBinding.inflate(inflater)
         binding.lifecycleOwner = this
 
         return binding.root

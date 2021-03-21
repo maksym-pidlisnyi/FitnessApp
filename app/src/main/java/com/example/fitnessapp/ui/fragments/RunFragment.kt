@@ -17,6 +17,7 @@ import com.example.fitnessapp.R
 import com.example.fitnessapp.adapters.RunAdapter
 import com.example.fitnessapp.databinding.FragmentRunBinding
 import com.example.fitnessapp.util.Constants
+import com.example.fitnessapp.util.FragmentBinding
 import com.example.fitnessapp.util.SortType
 import com.example.fitnessapp.util.TrackingUtility
 import com.example.fitnessapp.viewmodels.MainViewModel
@@ -29,11 +30,12 @@ class RunFragment : Fragment(R.layout.fragment_run), EasyPermissions.PermissionC
 
     private val viewModel: MainViewModel by viewModels()  // TODO recheck
 
-    private lateinit var binding: FragmentRunBinding
+//    private lateinit var binding: FragmentRunBinding
+    private val binding by FragmentBinding<FragmentRunBinding>(R.layout.fragment_run)
 
     // TODO check onCreateView -- onViewCreated
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragmentRunBinding.inflate(inflater)
+//        binding = FragmentRunBinding.inflate(inflater)
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 

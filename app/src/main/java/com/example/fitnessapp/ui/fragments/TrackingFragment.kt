@@ -19,6 +19,7 @@ import com.example.fitnessapp.util.Constants.Companion.ACTION_STOP_SERVICE
 import com.example.fitnessapp.util.Constants.Companion.MAP_ZOOM
 import com.example.fitnessapp.util.Constants.Companion.POLYLINE_COLOR
 import com.example.fitnessapp.util.Constants.Companion.POLYLINE_WIDTH
+import com.example.fitnessapp.util.FragmentBinding
 import com.example.fitnessapp.util.TrackingUtility
 import com.example.fitnessapp.viewmodels.MainViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -40,7 +41,7 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
 
     private val viewModel: MainViewModel by viewModels()
     private var map: GoogleMap? = null
-    private lateinit var binding: FragmentTrackingBinding
+    private val binding by FragmentBinding<FragmentTrackingBinding>(R.layout.fragment_tracking)
 
     private var isTracking = false
     private var pathPoints = mutableListOf<MutableList<LatLng>>()
@@ -52,9 +53,9 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
     @set:Inject
     var weight = 100f
 
-    // For testing, will remove soon
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = FragmentTrackingBinding.inflate(inflater)
+//        val binding = FragmentTrackingBinding.inflate(inflater, container, false)
+//        this.binding = binding
         binding.lifecycleOwner = this
         setHasOptionsMenu(true)
 
@@ -126,15 +127,16 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
         super.onSaveInstanceState(outState)
         binding.mapView.onSaveInstanceState(outState)
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        binding.mapView.onDestroy()
-    }
+//
+//    override fun onDestroy() {
+//        super.onDestroy()
+//        binding.mapView.onDestroy()
+//    }
 
     private fun updateTracking(isTracking: Boolean) {
         this.isTracking = isTracking
         if (!isTracking && curTimeInMillis > 0L) {
+//        if (!isTracking) {
             binding.btnToggleRun.text = "Start"
             binding.btnFinishRun.visibility = View.VISIBLE
         } else if (isTracking) {
@@ -169,11 +171,11 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
         })
 
         TrackingService.timeRunInMillis.observe(viewLifecycleOwner, Observer {
-            if (isTracking) {
-                curTimeInMillis = it
+            curTimeInMillis = it
+//            if (isTracking && curTimeInMillis > 0L) {
                 val formattedTime = TrackingUtility.getFormattedStopWatchTime(curTimeInMillis, true)
                 binding.tvTimer.text = formattedTime
-            }
+//            }
         })
     }
 
@@ -226,7 +228,7 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
      * Finishes the tracking.
      */
     private fun stopRun() {
-        binding.tvTimer.text = "00:00:00:00"
+//        binding.tvTimer.text = "00:00:00:00"
         sendCommandToService(ACTION_STOP_SERVICE)
         findNavController().navigate(R.id.action_trackingFragment_to_runFragment)
     }
@@ -298,8 +300,8 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
             for (polyline in pathPoints) {
                 distanceInMeters += TrackingUtility.calculatePolylineLength(polyline).toInt()
             }
-            val avgSpeed =
-                    round((distanceInMeters / 1000f) / (curTimeInMillis / 1000f / 60 / 60) * 10) / 10f
+            val avgSpeed = round((distanceInMeters / 1000f) /
+                    (curTimeInMillis / 1000f / 60 / 60) * 10) / 10f
             val timestamp = Calendar.getInstance().timeInMillis
             val caloriesBurned = ((distanceInMeters / 1000f) * weight).toInt()
             val run =

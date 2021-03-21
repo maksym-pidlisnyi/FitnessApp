@@ -11,6 +11,7 @@ import com.example.fitnessapp.R
 import com.example.fitnessapp.databinding.FragmentSettingsBinding
 import com.example.fitnessapp.util.Constants.Companion.KEY_NAME
 import com.example.fitnessapp.util.Constants.Companion.KEY_WEIGHT
+import com.example.fitnessapp.util.FragmentBinding
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -21,14 +22,15 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     @Inject
     lateinit var sharedPref: SharedPreferences
 
-    private lateinit var binding: FragmentSettingsBinding
+//    private lateinit var binding: FragmentSettingsBinding
+    private val binding by FragmentBinding<FragmentSettingsBinding>(R.layout.fragment_settings)
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentSettingsBinding.inflate(inflater)
+//        binding = FragmentSettingsBinding.inflate(inflater)
         binding.lifecycleOwner = this
 
         return binding.root

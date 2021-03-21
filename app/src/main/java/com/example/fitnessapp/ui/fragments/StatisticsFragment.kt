@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import com.example.fitnessapp.R
 import com.example.fitnessapp.databinding.FragmentStatisticsBinding
 import com.example.fitnessapp.ui.CustomMarkerView
+import com.example.fitnessapp.util.FragmentBinding
 import com.example.fitnessapp.util.TrackingUtility
 import com.example.fitnessapp.viewmodels.StatisticsViewModel
 import com.github.mikephil.charting.components.XAxis
@@ -26,14 +27,15 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
 
     private val viewModel: StatisticsViewModel by viewModels()
 
-    private lateinit var binding: FragmentStatisticsBinding
+//    private lateinit var binding: FragmentStatisticsBinding
+    private val binding by FragmentBinding<FragmentStatisticsBinding>(R.layout.fragment_statistics)
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentStatisticsBinding.inflate(inflater)
+//        binding = FragmentStatisticsBinding.inflate(inflater)
         binding.lifecycleOwner = this
 
         return binding.root
