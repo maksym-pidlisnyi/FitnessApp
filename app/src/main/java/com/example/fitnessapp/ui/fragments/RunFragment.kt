@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -16,6 +15,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fitnessapp.R
 import com.example.fitnessapp.adapters.RunAdapter
 import com.example.fitnessapp.databinding.FragmentRunBinding
+import com.example.fitnessapp.db.Run
+import com.example.fitnessapp.ui.DeleteRunDialog
 import com.example.fitnessapp.util.Constants
 import com.example.fitnessapp.util.FragmentBinding
 import com.example.fitnessapp.util.SortType
@@ -24,6 +25,8 @@ import com.example.fitnessapp.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
+
+const val DELETE_RUN_DIALOG_TAG = "DeleteRunDialog"
 
 @AndroidEntryPoint
 class RunFragment : Fragment(R.layout.fragment_run), EasyPermissions.PermissionCallbacks{
@@ -46,11 +49,24 @@ class RunFragment : Fragment(R.layout.fragment_run), EasyPermissions.PermissionC
         super.onViewCreated(view, savedInstanceState)
 
         requestPermission()
+
+//        if (savedInstanceState != null) {
+//            val deleteRunDialog = parentFragmentManager.findFragmentByTag(
+//                    DELETE_RUN_DIALOG_TAG
+//            ) as DeleteRunDialog?
+//            deleteRunDialog?.setAgreeListener {
+//                showDeleteRunDialog()
+//            }
+//        }
+
         binding.fab.setOnClickListener {
             findNavController().navigate(R.id.action_runFragment_to_trackingFragment)
         }
 
-        val runAdapter = RunAdapter()
+        val runAdapter = RunAdapter(RunAdapter.OnClickListener {
+            showDeleteRunDialog(it)
+            true
+        })
 
         binding.adapter = runAdapter
         binding.rvRuns.layoutManager = LinearLayoutManager(requireContext())
@@ -85,6 +101,14 @@ class RunFragment : Fragment(R.layout.fragment_run), EasyPermissions.PermissionC
         viewModel.runs.observe(viewLifecycleOwner, Observer {
             runAdapter.submitList(it)
         })
+    }
+
+    private fun showDeleteRunDialog(run : Run) {
+        DeleteRunDialog().apply {
+            setAgreeListener {
+                viewModel.deleteRun(run)
+            }
+        }.show(parentFragmentManager, DELETE_RUN_DIALOG_TAG)
     }
 
     override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {

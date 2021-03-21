@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnessapp.databinding.ItemRunBinding
 import com.example.fitnessapp.db.Run
 
-// TODO ???add click listener???
-class RunAdapter() : ListAdapter<Run, RunAdapter.RunViewHolder>(DiffCallBack()) {
+class RunAdapter(private val onClickListener: OnClickListener) :
+        ListAdapter<Run, RunAdapter.RunViewHolder>(DiffCallBack()) {
 
     class RunViewHolder (private val binding: ItemRunBinding) :
             RecyclerView.ViewHolder(binding.root) {
@@ -29,6 +29,10 @@ class RunAdapter() : ListAdapter<Run, RunAdapter.RunViewHolder>(DiffCallBack()) 
         }
     }
 
+    class OnClickListener(val clickListener: (run: Run) -> Boolean) {
+        fun onLongClick(run: Run) = clickListener(run)
+    }
+
 //    val differ = AsyncListDiffer(this, diffCallBack)
     //    fun submitList(list: List<Run>) = differ.submitList(list)
 
@@ -38,6 +42,10 @@ class RunAdapter() : ListAdapter<Run, RunAdapter.RunViewHolder>(DiffCallBack()) 
 
     override fun onBindViewHolder(holder: RunViewHolder, position: Int) {
         val run = getItem(position) as Run
+        holder.itemView.setOnLongClickListener {
+            onClickListener.onLongClick(run)
+            true
+        }
         holder.bind(run)
     }
 
