@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/runFragment"
+            android:title="Your Runs"
+            android:icon="@drawable/ic_run" />
+
+        <item android:id="@+id/statisticsFragment"
+            android:icon="@drawable/ic_graph"
+            android:title="Statistics"/>
+
+        <item
+            android:id="@+id/settingsFragment"
+            android:title="Settings"
+            android:icon="@drawable/ic_settings" />
+    </group>
+
+<!--    <item android:title="">-->
+<!--        <menu>-->
+<!--            <item android:id="@+id/nav_help"-->
+<!--                android:icon="@drawable/ic_add_black"-->
+<!--                android:title="Help &amp; feedback"/>-->
+<!--            <item android:id="@+id/nav_quit"-->
+<!--                android:icon="@drawable/ic_add_black"-->
+<!--                android:title="Quit"/>-->
+<!--        </menu>-->
+<!--    </item>-->
+
+    <group android:id="@+id/group_footer">
+        <item android:id="@+id/nav_help"
+            android:icon="@drawable/ic__help"
+            android:title="Help &amp; feedback"/>
+        <item android:id="@+id/nav_exit"
+            android:icon="@drawable/ic_exit"
+            android:title="Exit"/>
+    </group>
+</menu>
