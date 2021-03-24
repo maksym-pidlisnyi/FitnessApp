@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.example.fitnessapp.R
 import com.example.fitnessapp.databinding.FragmentTrackingBinding
@@ -16,9 +15,11 @@ import com.example.fitnessapp.ui.CancelTrackingDialog
 import com.example.fitnessapp.util.Constants.Companion.ACTION_PAUSE_SERVICE
 import com.example.fitnessapp.util.Constants.Companion.ACTION_START_OR_RESUME_SERVICE
 import com.example.fitnessapp.util.Constants.Companion.ACTION_STOP_SERVICE
+import com.example.fitnessapp.util.Constants.Companion.MAP_VIEW_BUNDLE_KEY
 import com.example.fitnessapp.util.Constants.Companion.MAP_ZOOM
 import com.example.fitnessapp.util.Constants.Companion.POLYLINE_COLOR
 import com.example.fitnessapp.util.Constants.Companion.POLYLINE_WIDTH
+import com.example.fitnessapp.util.DrawerLocker
 import com.example.fitnessapp.util.FragmentBinding
 import com.example.fitnessapp.util.TrackingUtility
 import com.example.fitnessapp.viewmodels.MainViewModel
@@ -33,6 +34,7 @@ import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 import kotlin.math.round
+
 
 const val CANCEL_TRACKING_DIALOG_TAG = "CancelDialog"
 
@@ -54,11 +56,8 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
     var weight = 100f
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-//        val binding = FragmentTrackingBinding.inflate(inflater, container, false)
-//        this.binding = binding
         binding.lifecycleOwner = this
         setHasOptionsMenu(true)
-
         return binding.root
     }
 
@@ -67,11 +66,12 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
 
         if (savedInstanceState != null) {
             val cancelTrackingDialog = parentFragmentManager.findFragmentByTag(
-                CANCEL_TRACKING_DIALOG_TAG
+                    CANCEL_TRACKING_DIALOG_TAG
             ) as CancelTrackingDialog?
             cancelTrackingDialog?.setAgreeListener {
                 stopRun()
             }
+
         }
 
         binding.mapView.onCreate(savedInstanceState)
@@ -101,21 +101,27 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
     override fun onResume() {
         super.onResume()
         binding.mapView.onResume()
+        (activity as DrawerLocker).drawerLocked(true)
+        Timber.d("onResume")
     }
 
     override fun onPause() {
         super.onPause()
         binding.mapView.onPause()
+        Timber.d("onPause")
     }
 
     override fun onStart() {
         super.onStart()
         binding.mapView.onStart()
+        Timber.d("onStart")
     }
 
     override fun onStop() {
         super.onStop()
         binding.mapView.onStop()
+        (activity as DrawerLocker).drawerLocked(false)
+        Timber.d("onStop")
     }
 
     override fun onLowMemory() {
@@ -124,26 +130,35 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
+        val mapViewBundle = outState.getBundle(MAP_VIEW_BUNDLE_KEY)
         binding.mapView.onSaveInstanceState(outState)
     }
-//
+
 //    override fun onDestroy() {
 //        super.onDestroy()
 //        binding.mapView.onDestroy()
+//        Timber.d("onDestroy")
+//    }
+
+
+//    override fun onDestroyView() {
+//        super.onDestroyView()
+//        binding.mapView.onDestroy()
+//        Timber.d("onDestroy")
 //    }
 
     private fun updateTracking(isTracking: Boolean) {
         this.isTracking = isTracking
         if (!isTracking && curTimeInMillis > 0L) {
 //        if (!isTracking) {
-            binding.btnToggleRun.text = "Start"
+            binding.btnToggleRun.text = "Resume"
             binding.btnFinishRun.visibility = View.VISIBLE
         } else if (isTracking) {
             binding.btnToggleRun.text = "Stop"
-            menu?.getItem(0)?.isVisible = true
+//            menu?.getItem(0)?.isVisible = true
             binding.btnFinishRun.visibility = View.GONE
         }
+        this.menu?.getItem(0)?.isVisible = curTimeInMillis > 0L && !isTracking
     }
 
     /**
@@ -151,8 +166,13 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
      */
     @SuppressLint("MissingPermission")
     private fun toggleRun() {
+        menu?.getItem(0)?.isVisible = curTimeInMillis > 0L && isTracking
+        if (!isTracking && curTimeInMillis > 0L) {
+            binding.btnToggleRun.text = "Resume"
+            binding.btnFinishRun.visibility = View.VISIBLE
+        }
         if (isTracking) {
-            menu?.getItem(0)?.isVisible = true
+//            menu?.getItem(0)?.isVisible = true
             sendCommandToService(ACTION_PAUSE_SERVICE)
         } else {
             sendCommandToService(ACTION_START_OR_RESUME_SERVICE)
@@ -161,20 +181,20 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
     }
 
     private fun subscribeToObservers() {
-        TrackingService.isTracking.observe(viewLifecycleOwner, Observer {
+        TrackingService.isTracking.observe(viewLifecycleOwner, {
             updateTracking(it)
         })
-        TrackingService.pathPoints.observe(viewLifecycleOwner, Observer {
+        TrackingService.pathPoints.observe(viewLifecycleOwner, {
             pathPoints = it
             addLatestPolyline()
             moveCameraToUser()
         })
 
-        TrackingService.timeRunInMillis.observe(viewLifecycleOwner, Observer {
+        TrackingService.timeRunInMillis.observe(viewLifecycleOwner, {
+//            if (isTracking) {
             curTimeInMillis = it
-//            if (isTracking && curTimeInMillis > 0L) {
-                val formattedTime = TrackingUtility.getFormattedStopWatchTime(curTimeInMillis, true)
-                binding.tvTimer.text = formattedTime
+            val formattedTime = TrackingUtility.getFormattedStopWatchTime(curTimeInMillis, true)
+            binding.tvTimer.text = formattedTime
 //            }
         })
     }
@@ -216,10 +236,10 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
     private fun moveCameraToUser() {
         if (pathPoints.isNotEmpty() && pathPoints.last().isNotEmpty()) {
             map?.animateCamera(
-                CameraUpdateFactory.newLatLngZoom(
-                    pathPoints.last().last(),
-                    MAP_ZOOM
-                )
+                    CameraUpdateFactory.newLatLngZoom(
+                            pathPoints.last().last(),
+                            MAP_ZOOM
+                    )
             )
         }
     }
@@ -252,9 +272,11 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
         super.onPrepareOptionsMenu(menu)
         // just checking for isTracking doesnt trigger this when rotating the device
         // in paused mode
-        if (curTimeInMillis > 0L) {
-            this.menu?.getItem(0)?.isVisible = true
+        if (!isTracking && curTimeInMillis > 0L) {
+            binding.btnToggleRun.text = "Resume"
+            binding.btnFinishRun.visibility = View.VISIBLE
         }
+        this.menu?.getItem(0)?.isVisible = curTimeInMillis > 0L && !isTracking
     }
 
     /**
@@ -306,12 +328,14 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
             val caloriesBurned = ((distanceInMeters / 1000f) * weight).toInt()
             val run =
                     Run(bmp, timestamp, avgSpeed, distanceInMeters, curTimeInMillis, caloriesBurned)
-            viewModel.insertRun(run)
-            Snackbar.make(
-                    requireActivity().findViewById(R.id.rootView),
-                    "Run saved successfully.",
-                    Snackbar.LENGTH_LONG
-            ).show()
+            if (run.img != null) {
+                viewModel.insertRun(run)
+                Snackbar.make(
+                        requireActivity().findViewById(R.id.rootView),
+                        "Run saved successfully.",
+                        Snackbar.LENGTH_LONG
+                ).show()
+            }
             stopRun()
         }
     }
