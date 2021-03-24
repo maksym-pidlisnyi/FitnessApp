@@ -20,17 +20,6 @@
             android:icon="@drawable/ic_settings" />
     </group>
 
-<!--    <item android:title="">-->
-<!--        <menu>-->
-<!--            <item android:id="@+id/nav_help"-->
-<!--                android:icon="@drawable/ic_add_black"-->
-<!--                android:title="Help &amp; feedback"/>-->
-<!--            <item android:id="@+id/nav_quit"-->
-<!--                android:icon="@drawable/ic_add_black"-->
-<!--                android:title="Quit"/>-->
-<!--        </menu>-->
-<!--    </item>-->
-
     <group android:id="@+id/group_footer">
         <item android:id="@+id/nav_help"
             android:icon="@drawable/ic__help"

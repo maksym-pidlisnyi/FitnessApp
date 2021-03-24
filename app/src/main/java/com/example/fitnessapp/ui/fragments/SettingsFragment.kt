@@ -22,7 +22,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     @Inject
     lateinit var sharedPref: SharedPreferences
 
-//    private lateinit var binding: FragmentSettingsBinding
     private val binding by FragmentBinding<FragmentSettingsBinding>(R.layout.fragment_settings)
 
     override fun onCreateView(
@@ -30,7 +29,6 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-//        binding = FragmentSettingsBinding.inflate(inflater)
         binding.lifecycleOwner = this
 
         return binding.root
