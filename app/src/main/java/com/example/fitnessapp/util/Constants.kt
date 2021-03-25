@@ -6,6 +6,9 @@ import com.github.mikephil.charting.data.LineDataSet
 class Constants {
 
     companion object {
+
+        const val BASE_URL = "https://wger.de/api/v2/"
+
         const val MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey"
 
         const val REQUEST_CODE_LOCATION_PERMISSION = 0
