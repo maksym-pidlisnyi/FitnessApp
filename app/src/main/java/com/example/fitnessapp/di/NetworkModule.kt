@@ -37,6 +37,16 @@ object NetworkModule {
             .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .build()
 
+//    for testing
+//    @Provides
+//    @Singleton
+//    fun provideRetrofit(moshi: Moshi): Retrofit =
+//        Retrofit.Builder()
+//            .baseUrl(BASE_URL)
+//            .addConverterFactory(MoshiConverterFactory.create(moshi))
+//            .addCallAdapterFactory(CoroutineCallAdapterFactory())
+//            .build()
+
     @Provides
     @Singleton
     fun provideApiService(retrofit: Retrofit): ExerciseService =

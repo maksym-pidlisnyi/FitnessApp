@@ -12,17 +12,16 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:padding="8dp">
-
 
         <ImageView
             android:id="@+id/ivExerciseImage"
             android:layout_width="400dp"
-            android:layout_height="400dp"
-            android:layout_marginTop="24dp"
+            android:layout_height="300dp"
+            android:layout_marginTop="8dp"
             android:gravity="center|center_vertical|center_horizontal"
-            app:exerciseImage="@{exercise}"
+            app:exerciseImage="@{exercise.imagePrimary}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -33,17 +32,16 @@
             android:id="@+id/tvExercisesName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:exerciseName="@{exercise}"
-            android:layout_marginTop="8dp"
+            android:gravity="center|center_vertical|center_horizontal"
             android:text="TextView"
             android:textAlignment="center"
             android:textSize="18sp"
             android:textStyle="bold"
+            app:exerciseName="@{exercise}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ivExerciseImage"
-            android:gravity="center|center_vertical|center_horizontal" />
+            app:layout_constraintTop_toBottomOf="@+id/ivExerciseImage" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

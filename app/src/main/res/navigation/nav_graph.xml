@@ -43,5 +43,17 @@
     <fragment
         android:id="@+id/exercisesFragment"
         android:name="com.example.fitnessapp.ui.fragments.ExercisesFragment"
-        android:label="ExercisesFragment" />
+        android:label="ExercisesFragment">
+        <action
+            android:id="@+id/action_exercisesFragment_to_exerciseDetailFragment"
+            app:destination="@id/exerciseDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/exerciseDetailFragment"
+        android:name="com.example.fitnessapp.ui.fragments.ExerciseDetailFragment"
+        android:label="ExerciseDetailFragment">
+        <argument
+            android:name="selectedProperty"
+            app:argType="com.example.fitnessapp.network.Exercise" />
+    </fragment>
 </navigation>
