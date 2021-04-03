@@ -1,16 +1,13 @@
 package com.example.fitnessapp.network
 
-import com.example.fitnessapp.network.data.ExerciseContainer
 import kotlinx.coroutines.Deferred
 import retrofit2.http.GET
-import retrofit2.http.Query
 
 interface ExerciseService {
 
-    @GET("exerciseinfo")
-    suspend fun getExercises(@Query("language") language: String = "2"): Deferred<ExerciseContainer>
+    @GET("exercises.json")
+    fun getExercises(): Deferred<List<Exercise>>
 }
-
 
 ///**
 // * Build the Moshi object that Retrofit will be using, making sure to add the Kotlin adapter for
