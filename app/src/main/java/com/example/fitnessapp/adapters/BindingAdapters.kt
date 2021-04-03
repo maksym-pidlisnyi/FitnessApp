@@ -86,9 +86,9 @@ fun RecyclerView.bindAdapter(adapter: RecyclerView.Adapter<*>) {
 // exercise adapters
 
 @BindingAdapter("exerciseImage")
-fun ImageView.bindExerciseImage(item: Exercise?) {
-    item?.let {
-        val imgUri = item.imagePrimary.toUri().buildUpon().scheme("https").build()
+fun ImageView.bindExerciseImage(imageUrl: String?) {
+    imageUrl?.let {
+        val imgUri = imageUrl.toUri().buildUpon().scheme("https").build()
         Glide
             .with(this.context)
             .load(imgUri)
@@ -106,6 +106,20 @@ fun TextView.bindExerciseName(item: Exercise?) {
     item?.let {
         item.name.also {
             text = it
+        }
+    }
+}
+
+@BindingAdapter("exerciseField")
+fun TextView.bindExerciseField(item: Exercise?) {
+    item?.let {
+        when (id) {
+            R.id.tvCategory -> "Category: ${item.category}".also { text = it }
+            R.id.tvEquipment -> "Equipment: ${item.equipment}".also { text = it }
+            R.id.tvDifficulty -> "Difficulty: ${item.difficulty}".also { text = it }
+            R.id.tvDescription -> "Description: ${item.description}".also { text = it }
+            else -> {
+            }
         }
     }
 }

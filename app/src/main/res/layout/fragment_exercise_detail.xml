@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.example.fitnessapp.viewmodels.DetailViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:padding="8dp">
+
+                <TextView
+                    android:id="@+id/tvName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="24dp"
+                    android:textAlignment="viewStart"
+                    android:textSize="36sp"
+                    android:textStyle="bold"
+                    app:exerciseName="@{viewModel.selectedProperty}" />
+
+                <TextView
+                    android:id="@+id/tvCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="8dp"
+                    android:textAlignment="viewStart"
+                    android:textSize="24sp"
+                    app:exerciseField="@{viewModel.selectedProperty}" />
+
+                <TextView
+                    android:id="@+id/tvEquipment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="8dp"
+                    android:textAlignment="viewStart"
+                    android:textSize="24sp"
+                    app:exerciseField="@{viewModel.selectedProperty}" />
+
+                <TextView
+                    android:id="@+id/tvDifficulty"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="8dp"
+                    android:textAlignment="viewStart"
+                    android:textSize="24sp"
+                    app:exerciseField="@{viewModel.selectedProperty}" />
+
+                <ImageView
+                    android:id="@+id/ivPrimary"
+                    android:layout_width="350dp"
+                    android:layout_height="300dp"
+                    app:exerciseImage="@{viewModel.selectedProperty.imagePrimary}"
+                    tools:srcCompat="@tools:sample/avatars" />
+
+                <ImageView
+                    android:id="@+id/ivSecondary"
+                    android:layout_width="350dp"
+                    android:layout_height="250dp"
+                    android:layout_marginTop="8dp"
+                    app:exerciseImage="@{viewModel.selectedProperty.imageSecondary}"
+                    tools:srcCompat="@tools:sample/avatars" />
+
+                <TextView
+                    android:id="@+id/tvDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:paddingBottom="16dp"
+                    android:textAlignment="viewStart"
+                    android:textSize="24sp"
+                    app:exerciseField="@{viewModel.selectedProperty}" />
+            </LinearLayout>
+        </ScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
