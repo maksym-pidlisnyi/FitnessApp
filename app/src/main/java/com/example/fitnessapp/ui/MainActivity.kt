@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
                     .findFragmentById(R.id.navHostFragment) as NavHostFragment)
                     .navController
             bottomNavigationView.setupWithNavController(navController)
-            bottomNavigationView.setOnNavigationItemReselectedListener { /* do nothing */ }
+//            bottomNavigationView.setOnNavigationItemReselectedListener { /* do nothing */ }
             navView.setupWithNavController(navController)
 
             navController.addOnDestinationChangedListener { _, destination, _ ->

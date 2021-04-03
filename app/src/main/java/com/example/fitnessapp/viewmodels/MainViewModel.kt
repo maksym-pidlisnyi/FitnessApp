@@ -27,6 +27,19 @@ class MainViewModel @ViewModelInject constructor(
 
     var sortType = SortType.DATE
 
+    private val _navigateToSelectedProperty = MutableLiveData<Exercise>()
+
+    val navigateToSelectedProperty: LiveData<Exercise>
+        get() = _navigateToSelectedProperty
+
+    fun displayPropertyDetails(exercise: Exercise) {
+        _navigateToSelectedProperty.value = exercise
+    }
+
+    fun displayPropertyDetailsComplete() {
+        _navigateToSelectedProperty.value = null
+    }
+
     init {
         runs.addSource(runsSortedByDate) { result ->
             Timber.d("RUNS SORTED BY DATE")
@@ -35,7 +48,7 @@ class MainViewModel @ViewModelInject constructor(
             }
         }
         runs.addSource(runsSortedByDistance) { result ->
-            if(sortType == SortType.DISTANCE) {
+            if (sortType == SortType.DISTANCE) {
                 result?.let { runs.value = it }
             }
         }

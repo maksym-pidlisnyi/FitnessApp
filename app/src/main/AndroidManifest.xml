@@ -8,6 +8,8 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <!--    android:usesCleartextTraffic="true"  for testing-->
+
     <application
         android:name=".BaseApplication"
         android:allowBackup="true"
