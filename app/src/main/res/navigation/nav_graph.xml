@@ -40,4 +40,8 @@
             android:id="@+id/action_trackingFragment_to_runFragment"
             app:destination="@id/runFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/exercisesFragment"
+        android:name="com.example.fitnessapp.ui.fragments.ExercisesFragment"
+        android:label="ExercisesFragment" />
 </navigation>

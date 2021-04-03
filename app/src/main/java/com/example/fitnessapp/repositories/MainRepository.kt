@@ -3,8 +3,6 @@ package com.example.fitnessapp.repositories
 import com.example.fitnessapp.db.Run
 import com.example.fitnessapp.db.RunDao
 import com.example.fitnessapp.network.ExerciseService
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class MainRepository @Inject constructor(
@@ -14,13 +12,8 @@ class MainRepository @Inject constructor(
     suspend fun insertRun(run: Run) = runDao.insertRun(run)
     suspend fun deleteRun(run: Run) = runDao.deleteRun(run)
 
-    suspend fun getAllExercises() {
-        withContext(Dispatchers.IO) {
-            val exercises = exerciseService.getExercises().await()
-            // TODO return somewhere
-        }
-
-    }
+    // test
+    suspend fun getAllExercises() = exerciseService.getExercises().await()
 
     fun getAllRunsSortedByDate() = runDao.getAllRunsSortedByDate()
     fun getAllRunsSortedByTimeInMillis() = runDao.getAllRunsSortedByTime()

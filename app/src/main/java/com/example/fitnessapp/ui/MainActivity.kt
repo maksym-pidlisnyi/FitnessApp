@@ -45,7 +45,8 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
 
             navController.addOnDestinationChangedListener { _, destination, _ ->
                 when (destination.id) {
-                    R.id.settingsFragment, R.id.runFragment, R.id.statisticsFragment -> {
+                    R.id.settingsFragment, R.id.runFragment, R.id.exercisesFragment,
+                    R.id.statisticsFragment -> {
                         bottomNavigationView.visibility = View.VISIBLE
                         navView.visibility = View.VISIBLE
                     }
