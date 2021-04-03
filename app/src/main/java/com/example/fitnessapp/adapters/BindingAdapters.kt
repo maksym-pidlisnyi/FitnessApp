@@ -1,25 +1,24 @@
 package com.example.fitnessapp.adapters
 
-import android.graphics.Bitmap
-import android.opengl.Visibility
-import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
-import androidx.fragment.app.findFragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.fitnessapp.R
 import com.example.fitnessapp.db.Run
-import com.example.fitnessapp.ui.fragments.RunFragment
+import com.example.fitnessapp.network.Exercise
 import com.example.fitnessapp.util.TrackingUtility
-import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 
 
+// run adapters
+
 @BindingAdapter("runImage")
-fun ImageView.bindImage(item: Run?) {
+fun ImageView.bindRunImage(item: Run?) {
     item?.let {
 //        Glide
 //            .with(this.context)
@@ -80,5 +79,33 @@ fun RecyclerView.bindAdapter(adapter: RecyclerView.Adapter<*>) {
     this.run {
         this.setHasFixedSize(true)
         this.adapter = adapter
+    }
+}
+
+
+// exercise adapters
+
+@BindingAdapter("exerciseImage")
+fun ImageView.bindExerciseImage(item: Exercise?) {
+    item?.let {
+        val imgUri = item.imagePrimary.toUri().buildUpon().scheme("https").build()
+        Glide
+            .with(this.context)
+            .load(imgUri)
+            .apply(
+                RequestOptions()
+                    .placeholder(R.drawable.loading_animation)
+                    .error(R.drawable.ic_broken_image)
+            )
+            .into(this)
+    }
+}
+
+@BindingAdapter("exerciseName")
+fun TextView.bindExerciseName(item: Exercise?) {
+    item?.let {
+        item.name.also {
+            text = it
+        }
     }
 }

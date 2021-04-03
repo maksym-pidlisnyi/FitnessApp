@@ -1,17 +1,16 @@
 package com.example.fitnessapp.viewmodels
 
 import androidx.hilt.lifecycle.ViewModelInject
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.fitnessapp.db.Run
+import com.example.fitnessapp.network.Exercise
 import com.example.fitnessapp.repositories.MainRepository
 import com.example.fitnessapp.util.SortType
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class MainViewModel @ViewModelInject constructor(
-        val mainRepository: MainRepository
+    private val mainRepository: MainRepository
 ) : ViewModel() {
 
     private val runsSortedByDate = mainRepository.getAllRunsSortedByDate()
@@ -20,6 +19,10 @@ class MainViewModel @ViewModelInject constructor(
     private val runsSortedByAvgSpeed = mainRepository.getAllRunsSortedByAvgSpeed()
     private val runsSortedByCaloriesBurned = mainRepository.getAllRunsSortedByCaloriesBurned()
 
+    private val _exercises = MutableLiveData<List<Exercise>>()
+    val exercises: LiveData<List<Exercise>>
+        get() = _exercises
+
     val runs = MediatorLiveData<List<Run>>()
 
     var sortType = SortType.DATE
@@ -27,7 +30,7 @@ class MainViewModel @ViewModelInject constructor(
     init {
         runs.addSource(runsSortedByDate) { result ->
             Timber.d("RUNS SORTED BY DATE")
-            if(sortType == SortType.DATE) {
+            if (sortType == SortType.DATE) {
                 result?.let { runs.value = it }
             }
         }
@@ -42,14 +45,18 @@ class MainViewModel @ViewModelInject constructor(
             }
         }
         runs.addSource(runsSortedByAvgSpeed) { result ->
-            if(sortType == SortType.AVG_SPEED) {
+            if (sortType == SortType.AVG_SPEED) {
                 result?.let { runs.value = it }
             }
         }
         runs.addSource(runsSortedByCaloriesBurned) { result ->
-            if(sortType == SortType.CALORIES_BURNED) {
+            if (sortType == SortType.CALORIES_BURNED) {
                 result?.let { runs.value = it }
             }
+        }
+
+        viewModelScope.launch {
+            _exercises.value = mainRepository.getAllExercises()
         }
     }
 

@@ -7,9 +7,9 @@
         android:icon="@drawable/ic_run" />
 
     <item
-        android:id="@+id/statisticsFragment"
-        android:title="Statistics"
-        android:icon="@drawable/ic_graph" />
+        android:id="@+id/exercisesFragment"
+        android:title="Exercises"
+        android:icon="@drawable/ic_exercises" />
 
     <item
         android:id="@+id/settingsFragment"

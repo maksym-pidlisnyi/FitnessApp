@@ -7,17 +7,19 @@ class Constants {
 
     companion object {
 
-        const val BASE_URL = "https://wger.de/api/v2/"
+            const val BASE_URL = "https://daily-exercises.herokuapp.com/"
 
-        const val MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey"
+//        const val BASE_URL = "http://10.0.2.2:3000" for testing
 
-        const val REQUEST_CODE_LOCATION_PERMISSION = 0
+            const val MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey"
 
-        // Database
-        const val DATABASE_NAME = "running_db"
+            const val REQUEST_CODE_LOCATION_PERMISSION = 0
 
-        // Tracking Options
-        const val LOCATION_UPDATE_INTERVAL = 5000L
+            // Database
+            const val DATABASE_NAME = "running_db"
+
+            // Tracking Options
+            const val LOCATION_UPDATE_INTERVAL = 5000L
         const val FASTEST_LOCATION_UPDATE_INTERVAL = 2000L
 
         // Map Options
