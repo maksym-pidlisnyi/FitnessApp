@@ -1,16 +1,16 @@
 package com.example.fitnessapp.adapters
 
+import android.graphics.Bitmap
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.fitnessapp.R
 import com.example.fitnessapp.db.Run
-import com.example.fitnessapp.network.Exercise
-import com.example.fitnessapp.util.TrackingUtility
+import com.example.fitnessapp.domain.Exercise
+import com.example.fitnessapp.util.Helper
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -43,7 +43,7 @@ fun TextView.bindDate(item: Run?) {
 @BindingAdapter("runTime")
 fun TextView.bindTime(item: Run?) {
     item?.let {
-        text = TrackingUtility.getFormattedStopWatchTime(item.timeInMillis)
+        text = Helper.getFormattedStopWatchTime(item.timeInMillis)
     }
 }
 
@@ -86,18 +86,18 @@ fun RecyclerView.bindAdapter(adapter: RecyclerView.Adapter<*>) {
 // exercise adapters
 
 @BindingAdapter("exerciseImage")
-fun ImageView.bindExerciseImage(imageUrl: String?) {
-    imageUrl?.let {
-        val imgUri = imageUrl.toUri().buildUpon().scheme("https").build()
+fun ImageView.bindExerciseImage(image: Bitmap?) {
+    image?.let {
+//        val imgUri = imageUrl.toUri().buildUpon().scheme("https").build()
         Glide
-            .with(this.context)
-            .load(imgUri)
-            .apply(
-                RequestOptions()
-                    .placeholder(R.drawable.loading_animation)
-                    .error(R.drawable.ic_broken_image)
-            )
-            .into(this)
+                .with(this.context)
+                .load(image)
+                .apply(
+                        RequestOptions()
+                                .placeholder(R.drawable.loading_animation)
+                                .error(R.drawable.ic_broken_image)
+                )
+                .into(this)
     }
 }
 

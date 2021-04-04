@@ -21,7 +21,7 @@ import com.example.fitnessapp.util.Constants.Companion.POLYLINE_COLOR
 import com.example.fitnessapp.util.Constants.Companion.POLYLINE_WIDTH
 import com.example.fitnessapp.util.DrawerLocker
 import com.example.fitnessapp.util.FragmentBinding
-import com.example.fitnessapp.util.TrackingUtility
+import com.example.fitnessapp.util.Helper
 import com.example.fitnessapp.viewmodels.MainViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -193,7 +193,7 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
         TrackingService.timeRunInMillis.observe(viewLifecycleOwner, {
 //            if (isTracking) {
             curTimeInMillis = it
-            val formattedTime = TrackingUtility.getFormattedStopWatchTime(curTimeInMillis, true)
+            val formattedTime = Helper.getFormattedStopWatchTime(curTimeInMillis, true)
             binding.tvTimer.text = formattedTime
 //            }
         })
@@ -320,7 +320,7 @@ class TrackingFragment : Fragment(R.layout.fragment_tracking) {
         map?.snapshot { bmp ->
             var distanceInMeters = 0
             for (polyline in pathPoints) {
-                distanceInMeters += TrackingUtility.calculatePolylineLength(polyline).toInt()
+                distanceInMeters += Helper.calculatePolylineLength(polyline).toInt()
             }
             val avgSpeed = round((distanceInMeters / 1000f) /
                     (curTimeInMillis / 1000f / 60 / 60) * 10) / 10f

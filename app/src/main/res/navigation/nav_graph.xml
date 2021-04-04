@@ -54,6 +54,6 @@
         android:label="ExerciseDetailFragment">
         <argument
             android:name="selectedProperty"
-            app:argType="com.example.fitnessapp.network.Exercise" />
+            app:argType="com.example.fitnessapp.domain.Exercise" />
     </fragment>
 </navigation>

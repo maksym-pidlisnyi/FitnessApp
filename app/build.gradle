@@ -122,4 +122,7 @@ dependencies {
     // Moshi for parsing the JSON format
     implementation "com.squareup.moshi:moshi:1.9.3"
     implementation "com.squareup.moshi:moshi-kotlin:1.9.3"
+
+    // WorkManager
+    implementation "android.arch.work:work-runtime-ktx:1.0.1"
 }

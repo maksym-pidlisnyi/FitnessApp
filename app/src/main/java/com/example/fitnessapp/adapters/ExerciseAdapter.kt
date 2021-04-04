@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fitnessapp.R
 import com.example.fitnessapp.databinding.ItemExerciseBinding
-import com.example.fitnessapp.network.Exercise
+import com.example.fitnessapp.domain.Exercise
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -71,7 +71,7 @@ class ExerciseAdapter(private val onClickListener: OnClickListener) :
     }
 
     class OnClickListener(val clickListener: (exercise: Exercise) -> Unit) {
-        fun onClick(exercise: Exercise) = clickListener(exercise)
+        fun onClick(networkExercise: Exercise) = clickListener(networkExercise)
     }
 
     //    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
