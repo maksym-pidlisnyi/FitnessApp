@@ -5,11 +5,12 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
 @Database(
-    entities = [Run::class],
-    version = 1
+        entities = [Run::class, DatabaseExercise::class],
+        version = 3
 )
 @TypeConverters(Converters::class)
-abstract class RunningDatabase : RoomDatabase() {
+abstract class Database : RoomDatabase() {
 
     abstract fun getRunDao(): RunDao
+    abstract fun getExercisesDao(): ExerciseDao
 }

@@ -4,7 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import com.example.fitnessapp.databinding.MarkerViewBinding
 import com.example.fitnessapp.db.Run
-import com.example.fitnessapp.util.TrackingUtility
+import com.example.fitnessapp.util.Helper
 import com.github.mikephil.charting.components.MarkerView
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.highlight.Highlight
@@ -53,9 +53,9 @@ class CustomMarkerView(
             tvDistance.text = it
         }
         tvDuration.text =
-            TrackingUtility.getFormattedStopWatchTime(
-                run.timeInMillis
-            )
+                Helper.getFormattedStopWatchTime(
+                        run.timeInMillis
+                )
         "${run.caloriesBurned}kcal".also {
             tvCaloriesBurned.text = it
         }

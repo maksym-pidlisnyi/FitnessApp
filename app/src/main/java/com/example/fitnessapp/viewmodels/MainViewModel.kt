@@ -3,7 +3,7 @@ package com.example.fitnessapp.viewmodels
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.example.fitnessapp.db.Run
-import com.example.fitnessapp.network.Exercise
+import com.example.fitnessapp.domain.Exercise
 import com.example.fitnessapp.repositories.MainRepository
 import com.example.fitnessapp.util.SortType
 import kotlinx.coroutines.launch
@@ -19,9 +19,8 @@ class MainViewModel @ViewModelInject constructor(
     private val runsSortedByAvgSpeed = mainRepository.getAllRunsSortedByAvgSpeed()
     private val runsSortedByCaloriesBurned = mainRepository.getAllRunsSortedByCaloriesBurned()
 
-    private val _exercises = MutableLiveData<List<Exercise>>()
-    val exercises: LiveData<List<Exercise>>
-        get() = _exercises
+
+    val exercises = mainRepository.exercises
 
     val runs = MediatorLiveData<List<Run>>()
 
@@ -68,9 +67,15 @@ class MainViewModel @ViewModelInject constructor(
             }
         }
 
-        viewModelScope.launch {
-            _exercises.value = mainRepository.getAllExercises()
-        }
+
+//        viewModelScope.launch {
+//            mainRepository.refreshExercises()
+//        }
+
+//        if (Helper.isOnline(cont))
+//            viewModelScope.launch {
+//                mainRepository.refreshExercises()
+//            }
     }
 
     fun sortRuns(sortType: SortType) = when(sortType) {

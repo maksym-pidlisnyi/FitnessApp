@@ -13,7 +13,7 @@ import com.example.fitnessapp.R
 import com.example.fitnessapp.databinding.FragmentStatisticsBinding
 import com.example.fitnessapp.ui.CustomMarkerView
 import com.example.fitnessapp.util.FragmentBinding
-import com.example.fitnessapp.util.TrackingUtility
+import com.example.fitnessapp.util.Helper
 import com.example.fitnessapp.viewmodels.StatisticsViewModel
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
@@ -87,7 +87,7 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
 
         viewModel.totalTimeInMillis.observe(viewLifecycleOwner, Observer {
             it?.let {
-                val totalTimeInMillis = TrackingUtility.getFormattedStopWatchTime(it)
+                val totalTimeInMillis = Helper.getFormattedStopWatchTime(it)
                 binding.tvTotalTime.text = totalTimeInMillis
             }
         })
