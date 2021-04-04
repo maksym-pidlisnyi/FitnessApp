@@ -18,8 +18,8 @@ import com.example.fitnessapp.db.Run
 import com.example.fitnessapp.ui.DeleteRunDialog
 import com.example.fitnessapp.util.Constants
 import com.example.fitnessapp.util.FragmentBinding
+import com.example.fitnessapp.util.Helper
 import com.example.fitnessapp.util.SortType
-import com.example.fitnessapp.util.TrackingUtility
 import com.example.fitnessapp.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import pub.devrel.easypermissions.AppSettingsDialog
@@ -126,7 +126,7 @@ class RunFragment : Fragment(R.layout.fragment_run), EasyPermissions.PermissionC
     override fun onPermissionsGranted(requestCode: Int, perms: MutableList<String>) {}
 
     private fun requestPermission() {
-        if (TrackingUtility.hasLocationPermissions(requireContext()))
+        if (Helper.hasLocationPermissions(requireContext()))
             return
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
             EasyPermissions.requestPermissions(

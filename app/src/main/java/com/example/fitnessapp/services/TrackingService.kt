@@ -26,7 +26,7 @@ import com.example.fitnessapp.util.Constants.Companion.NOTIFICATION_CHANNEL_ID
 import com.example.fitnessapp.util.Constants.Companion.NOTIFICATION_CHANNEL_NAME
 import com.example.fitnessapp.util.Constants.Companion.NOTIFICATION_ID
 import com.example.fitnessapp.util.Constants.Companion.TIMER_UPDATE_INTERVAL
-import com.example.fitnessapp.util.TrackingUtility
+import com.example.fitnessapp.util.Helper
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -137,7 +137,7 @@ class TrackingService : LifecycleService() {
         timeRunInSeconds.observe(this, Observer {
             if (!serviceKilled) {
                 val notification = currNotificationBuilder
-                        .setContentText(TrackingUtility.getFormattedStopWatchTime(it * 1000L))
+                        .setContentText(Helper.getFormattedStopWatchTime(it * 1000L))
                 notificationManager.notify(NOTIFICATION_ID, notification.build())
             }
         })
@@ -182,7 +182,7 @@ class TrackingService : LifecycleService() {
     @SuppressLint("MissingPermission")
     private fun updateLocationChecking(isTracking: Boolean) {
         if (isTracking) {
-            if (TrackingUtility.hasLocationPermissions(this)) {
+            if (Helper.hasLocationPermissions(this)) {
                 val request = LocationRequest().apply {
                     interval = LOCATION_UPDATE_INTERVAL
                     fastestInterval = FASTEST_LOCATION_UPDATE_INTERVAL

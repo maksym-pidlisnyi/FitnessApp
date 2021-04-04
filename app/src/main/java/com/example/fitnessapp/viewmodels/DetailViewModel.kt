@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.fitnessapp.network.Exercise
+import com.example.fitnessapp.domain.Exercise
 
 // TODO remake
 class DetailViewModel(@Suppress("UNUSED_PARAMETER") exercise: Exercise, app: Application) :
