@@ -31,6 +31,10 @@ class MainViewModel @ViewModelInject constructor(
     val navigateToSelectedProperty: LiveData<Exercise>
         get() = _navigateToSelectedProperty
 
+    val isNetworkAvailable = MutableLiveData<Boolean>()
+//    val isNetworkAvailable: LiveData<Boolean>
+//        get() = _isNetworkAvailable
+
     fun displayPropertyDetails(exercise: Exercise) {
         _navigateToSelectedProperty.value = exercise
     }
@@ -67,11 +71,11 @@ class MainViewModel @ViewModelInject constructor(
             }
         }
 
-
-//        viewModelScope.launch {
-//            mainRepository.refreshExercises()
-//        }
-
+        if (isNetworkAvailable.value == true) {
+            viewModelScope.launch {
+                mainRepository.refreshExercises()
+            }
+        }
 //        if (Helper.isOnline(cont))
 //            viewModelScope.launch {
 //                mainRepository.refreshExercises()
