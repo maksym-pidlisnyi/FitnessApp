@@ -11,7 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fitnessapp.R
 import com.example.fitnessapp.adapters.ExerciseAdapter
 import com.example.fitnessapp.databinding.FragmentExercisesBinding
+import com.example.fitnessapp.util.ConnectionLiveData
 import com.example.fitnessapp.util.FragmentBinding
+import com.example.fitnessapp.util.isConnected
 import com.example.fitnessapp.viewmodels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,11 +24,16 @@ class ExercisesFragment : Fragment(R.layout.fragment_exercises) {
     private val viewModel: MainViewModel by viewModels()
     private val binding by FragmentBinding<FragmentExercisesBinding>(R.layout.fragment_exercises)
 
+    protected lateinit var connectionLiveData: ConnectionLiveData
+
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
+
+        connectionLiveData = context?.let { ConnectionLiveData(it) }!!
+
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
@@ -46,11 +53,18 @@ class ExercisesFragment : Fragment(R.layout.fragment_exercises) {
         viewModel.navigateToSelectedProperty.observe(viewLifecycleOwner, {
             it?.let {
                 this.findNavController().navigate(
-                    ExercisesFragmentDirections.actionExercisesFragmentToExerciseDetailFragment(it)
+                        ExercisesFragmentDirections.actionExercisesFragmentToExerciseDetailFragment(it)
                 )
                 viewModel.displayPropertyDetailsComplete()
             }
         })
+
+        connectionLiveData.observe(viewLifecycleOwner, {
+            viewModel.isNetworkAvailable.value = it
+        })
+        viewModel.isNetworkAvailable.value = requireContext().isConnected
+
+
 
         return binding.root
     }

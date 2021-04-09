@@ -5,7 +5,7 @@ import retrofit2.http.GET
 
 interface ExerciseService {
 
-    @GET("exercises.json")
+    @GET("exercises")
     fun getExercises(): Deferred<List<NetworkExercise>>
 }
 

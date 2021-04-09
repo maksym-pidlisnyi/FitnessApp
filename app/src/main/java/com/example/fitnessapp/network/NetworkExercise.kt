@@ -9,7 +9,7 @@ import kotlinx.android.parcel.Parcelize
 @JsonClass(generateAdapter = true)
 @Parcelize
 data class NetworkExercise(
-        val id: String,
+        val _id: String,
         val name: String,
         val description: String,
         val category: String,
@@ -22,7 +22,7 @@ data class NetworkExercise(
 fun List<NetworkExercise>.asDatabaseModel(): Array<DatabaseExercise> {
     return map {
         DatabaseExercise(
-                id = it.id,
+                id = it._id,
                 name = it.name,
                 description = it.description,
                 category = it.category,
