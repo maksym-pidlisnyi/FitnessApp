@@ -76,10 +76,6 @@ class MainViewModel @ViewModelInject constructor(
                 mainRepository.refreshExercises()
             }
         }
-//        if (Helper.isOnline(cont))
-//            viewModelScope.launch {
-//                mainRepository.refreshExercises()
-//            }
     }
 
     fun sortRuns(sortType: SortType) = when(sortType) {

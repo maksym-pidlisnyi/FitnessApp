@@ -31,9 +31,8 @@ class ExercisesFragment : Fragment(R.layout.fragment_exercises) {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
-
         connectionLiveData = context?.let { ConnectionLiveData(it) }!!
-
+      
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
 
@@ -63,8 +62,6 @@ class ExercisesFragment : Fragment(R.layout.fragment_exercises) {
             viewModel.isNetworkAvailable.value = it
         })
         viewModel.isNetworkAvailable.value = requireContext().isConnected
-
-
 
         return binding.root
     }
