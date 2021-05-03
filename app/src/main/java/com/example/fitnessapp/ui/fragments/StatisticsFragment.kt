@@ -14,7 +14,7 @@ import com.example.fitnessapp.databinding.FragmentStatisticsBinding
 import com.example.fitnessapp.ui.CustomMarkerView
 import com.example.fitnessapp.util.FragmentBinding
 import com.example.fitnessapp.util.Helper
-import com.example.fitnessapp.viewmodels.StatisticsViewModel
+import com.example.fitnessapp.viewmodels.MainViewModel
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
@@ -25,7 +25,7 @@ import kotlin.math.round
 @AndroidEntryPoint
 class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
 
-    private val viewModel: StatisticsViewModel by viewModels()
+    private val viewModel: MainViewModel by viewModels()
 
 //    private lateinit var binding: FragmentStatisticsBinding
     private val binding by FragmentBinding<FragmentStatisticsBinding>(R.layout.fragment_statistics)

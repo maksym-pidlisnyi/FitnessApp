@@ -13,11 +13,18 @@ class MainViewModel @ViewModelInject constructor(
     private val mainRepository: MainRepository
 ) : ViewModel() {
 
-    private val runsSortedByDate = mainRepository.getAllRunsSortedByDate()
+    //    private val runsSortedByDate = mainRepository.getAllRunsSortedByDate()
     private val runsSortedByDistance = mainRepository.getAllRunsSortedByDistance()
     private val runsSortedByTimeInMillis = mainRepository.getAllRunsSortedByTimeInMillis()
     private val runsSortedByAvgSpeed = mainRepository.getAllRunsSortedByAvgSpeed()
     private val runsSortedByCaloriesBurned = mainRepository.getAllRunsSortedByCaloriesBurned()
+
+    var totalDistance = mainRepository.getTotalDistance()
+    var totalTimeInMillis = mainRepository.getTotalTimeInMillis()
+    var totalAvgSpeed = mainRepository.getTotalAvgSpeed()
+    var totalCaloriesBurned = mainRepository.getTotalCaloriesBurned()
+
+    var runsSortedByDate = mainRepository.getAllRunsSortedByDate()
 
 
     val exercises = mainRepository.exercises
