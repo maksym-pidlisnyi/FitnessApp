@@ -110,7 +110,7 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
         viewModel.runsSortedByDate.observe(viewLifecycleOwner, Observer {
             it?.let {
                 val allAvgSpeeds =
-                    it.indices.map { i -> BarEntry(i.toFloat(), it[i].avgSpeedInKMH) }
+                        it.indices.map { i -> BarEntry(i.toFloat(), it[i].avgSpeedInKMH) }
 
                 val barDataSet = BarDataSet(allAvgSpeeds, "Avg Speed over Time")
                 barDataSet.apply {
@@ -119,9 +119,9 @@ class StatisticsFragment : Fragment(R.layout.fragment_statistics) {
                 }
                 binding.barChart.data = BarData(barDataSet)
                 binding.barChart.marker = CustomMarkerView(
-                    it.reversed(),
-                    requireContext(),
-                    R.layout.marker_view
+                        it,
+                        requireContext(),
+                        R.layout.marker_view
                 )
                 binding.barChart.invalidate()
             }

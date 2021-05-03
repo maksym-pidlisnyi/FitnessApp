@@ -71,10 +71,13 @@ class MainViewModel @ViewModelInject constructor(
             }
         }
 
-        if (isNetworkAvailable.value == true) {
-            viewModelScope.launch {
-                mainRepository.refreshExercises()
-            }
+//        if (isNetworkAvailable.value == true) {
+//            viewModelScope.launch {
+//                mainRepository.refreshExercises()
+//            }
+//        }
+        viewModelScope.launch {
+            mainRepository.refreshExercises()
         }
 //        if (Helper.isOnline(cont))
 //            viewModelScope.launch {
