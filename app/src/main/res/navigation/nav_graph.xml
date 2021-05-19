@@ -56,4 +56,8 @@
             android:name="selectedProperty"
             app:argType="com.example.fitnessapp.domain.Exercise" />
     </fragment>
+    <fragment
+        android:id="@+id/helpFragment"
+        android:name="com.example.fitnessapp.ui.fragments.HelpFragment"
+        android:label="HelpFragment" />
 </navigation>

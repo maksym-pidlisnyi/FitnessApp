@@ -1,7 +1,6 @@
 package com.example.fitnessapp.ui
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -64,10 +63,11 @@ class MainActivity : AppCompatActivity(), DrawerLocker {
                         finish()
                     }
                     R.id.nav_help -> {
-                        startActivity(Intent(
-                                Intent.ACTION_VIEW,
-                                Uri.parse("http://www.google.com/search?q=how+to+google"))
-                        )
+//                        startActivity(Intent(
+//                                Intent.ACTION_VIEW,
+//                                Uri.parse("http://www.google.com/search?q=how+to+google"))
+//                        )
+                        navController.navigate(R.id.helpFragment)
                         drawerLayout.closeDrawer(navView)
                     }
                     R.id.settingsFragment -> {
