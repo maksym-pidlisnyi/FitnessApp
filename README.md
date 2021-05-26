@@ -32,6 +32,8 @@ width="200"
 [<img src="./img/tracking_screen.png" align="center"
 width="200"
     hspace="10" vspace="10">](./img/tracking_screen.png)
+    
+    
 [<img src="./img/exercises_screen.png" align="left"
 width="200"
     hspace="10" vspace="10">](./img/exercises_screen.png)
